@@ -90,7 +90,7 @@ const switchTheme = () => {
 .username {
   display: flex;
   flex-direction: column;
-  align-items: start !important;
+  align-items: flex-start !important;
 
   strong {
     margin-top: $fib-3 * 1px;
