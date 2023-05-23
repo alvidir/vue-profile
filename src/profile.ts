@@ -1,4 +1,4 @@
-const localStorageThemeKey = "color-palette";
+const localStorageProfileKey = "user-profile";
 
 enum Theme {
   Light = "theme-light",
@@ -11,20 +11,22 @@ interface Profile {
   picture?: string;
 }
 
+const newProfile = (): Profile => {
+  return {
+    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? Theme.Dark
+      : Theme.Light,
+  };
+};
+
 const store = (profile: Profile) => {
-  const theme = profile.theme?.toString();
-  if (theme) localStorage.setItem(localStorageThemeKey, theme);
-  else localStorage.removeItem(localStorageThemeKey);
+  localStorage.setItem(localStorageProfileKey, JSON.stringify(profile));
 };
 
 const load = (): Profile => {
-  const localStorageTheme = localStorage.getItem(localStorageThemeKey);
-  const isValid = Object.values(Theme).includes(localStorageTheme as Theme);
-  const theme = isValid ? (localStorageTheme as Theme) : undefined;
-
-  return {
-    theme: theme,
-  };
+  const localStorageProfile = localStorage.getItem(localStorageProfileKey);
+  if (!localStorageProfile) return newProfile();
+  return JSON.parse(localStorageProfile);
 };
 
 const apply = (profile: Profile) => {
@@ -38,4 +40,9 @@ const apply = (profile: Profile) => {
   }
 };
 
-export { Profile, Theme, store, load, apply };
+const storeAndApply = (profile: Profile) => {
+  store(profile);
+  apply(profile);
+};
+
+export { Profile, Theme, store, load, apply, storeAndApply };

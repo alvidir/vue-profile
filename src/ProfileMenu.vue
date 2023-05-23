@@ -2,10 +2,10 @@
 import { inject } from "vue";
 import { SwitchButton } from "vue-buttons/src/main";
 import { RegularMenu } from "vue-menus/src/main";
-import { Profile, Theme, load, store, apply } from "./profile";
+import { Profile, Theme, load, storeAndApply } from "./profile";
 
 interface Props {
-  inject: string;
+  inject?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,8 +25,7 @@ const emit = defineEmits<Events>();
 const switchTheme = () => {
   const theme = profile.theme === Theme.Dark ? Theme.Light : Theme.Dark;
   profile.theme = theme;
-  apply(profile);
-  store(profile);
+  storeAndApply(profile);
 };
 </script>
 
