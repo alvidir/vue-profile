@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { remove, load, apply } from "../src/profile";
+import { remove, loadAndApply } from "../src/profile";
 
 remove();
-const profile = load();
-apply(profile);
+const profile = loadAndApply();
 </script>
 
 <template>
