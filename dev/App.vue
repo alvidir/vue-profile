@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { provide, reactive } from "vue";
-import { load, apply } from "../src/profile";
+import { remove, load, apply } from "../src/profile";
 
-const profile = reactive(load());
-
-provide("profile", profile);
+remove();
+const profile = load();
 apply(profile);
 </script>
 

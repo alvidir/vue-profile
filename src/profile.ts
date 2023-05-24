@@ -1,26 +1,32 @@
 const localStorageProfileKey = "user-profile";
 
-enum Theme {
+enum ColorPalette {
   Light = "theme-light",
   Dark = "theme-dark",
 }
 
 interface Profile {
-  name?: string;
-  theme?: Theme;
-  picture?: string;
+  name: string;
+  palette: ColorPalette;
+  picture: string;
 }
 
 const newProfile = (): Profile => {
   return {
-    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? Theme.Dark
-      : Theme.Light,
+    name: "",
+    picture: "",
+    palette: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? ColorPalette.Dark
+      : ColorPalette.Light,
   };
 };
 
 const store = (profile: Profile) => {
   localStorage.setItem(localStorageProfileKey, JSON.stringify(profile));
+};
+
+const remove = () => {
+  localStorage.removeItem(localStorageProfileKey);
 };
 
 const load = (): Profile => {
@@ -30,13 +36,14 @@ const load = (): Profile => {
 };
 
 const apply = (profile: Profile) => {
-  if (profile.theme) {
+  console.log(profile);
+  if (profile.palette) {
     const classList = document.getElementsByTagName("body")[0].classList;
-    Object.values(Theme).forEach((key: string) => {
+    Object.values(ColorPalette).forEach((key: string) => {
       classList.remove(key);
     });
 
-    classList.add(profile.theme);
+    classList.add(profile.palette);
   }
 };
 
@@ -45,4 +52,22 @@ const storeAndApply = (profile: Profile) => {
   apply(profile);
 };
 
-export { Profile, Theme, store, load, apply, storeAndApply };
+const switchColorPalette = (profile: Profile) => {
+  const next = {
+    [ColorPalette.Dark]: ColorPalette.Light,
+    [ColorPalette.Light]: ColorPalette.Dark,
+  };
+
+  profile.palette = next[profile.palette];
+};
+
+export {
+  Profile,
+  ColorPalette,
+  store,
+  remove,
+  load,
+  apply,
+  storeAndApply,
+  switchColorPalette,
+};

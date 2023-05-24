@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { inject } from "vue";
 import { SwitchButton } from "vue-buttons/src/main";
 import { RegularMenu } from "vue-menus/src/main";
-import { Profile, Theme, load, storeAndApply } from "./profile";
+import {
+  Profile,
+  ColorPalette,
+  switchColorPalette,
+  storeAndApply,
+} from "./profile";
 
 interface Props {
-  inject?: string;
+  profile: Profile;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  inject: "profile",
-});
-
-const profile = inject<Profile>(props.inject) ?? load();
+const props = defineProps<Props>();
 
 interface Events {
   (e: "signout", payload: MouseEvent): void;
@@ -22,10 +22,9 @@ interface Events {
 
 const emit = defineEmits<Events>();
 
-const switchTheme = () => {
-  const theme = profile.theme === Theme.Dark ? Theme.Light : Theme.Dark;
-  profile.theme = theme;
-  storeAndApply(profile);
+const onSwitchColorPalette = () => {
+  switchColorPalette(props.profile);
+  storeAndApply(props.profile);
 };
 </script>
 
@@ -43,8 +42,8 @@ const switchTheme = () => {
     <div class="option item no-hover">
       Dark theme
       <switch-button
-        :checked="profile.theme === Theme.Dark"
-        @switch="switchTheme"
+        :checked="profile.palette === ColorPalette.Dark"
+        @switch="onSwitchColorPalette"
       ></switch-button>
     </div>
     <span></span>
