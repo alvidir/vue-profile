@@ -52,6 +52,12 @@ const storeAndApply = (profile: Profile) => {
   apply(profile);
 };
 
+const loadAndApply = (): Profile => {
+  const profile = load();
+  apply(profile);
+  return profile;
+};
+
 const switchColorPalette = (profile: Profile) => {
   const next = {
     [ColorPalette.Dark]: ColorPalette.Light,
@@ -69,5 +75,6 @@ export {
   load,
   apply,
   storeAndApply,
+  loadAndApply,
   switchColorPalette,
 };
