@@ -7,6 +7,7 @@ import {
   switchColorPalette,
   storeAndApply,
 } from "./profile";
+import { computed } from "vue";
 
 interface Props {
   profile: Profile;
@@ -26,6 +27,11 @@ const onSwitchColorPalette = () => {
   switchColorPalette(props.profile);
   storeAndApply(props.profile);
 };
+
+const isDarkTheme = computed({
+  get: (): boolean => props.profile.palette == ColorPalette.Dark,
+  set: () => onSwitchColorPalette(),
+});
 </script>
 
 <template>
@@ -42,7 +48,7 @@ const onSwitchColorPalette = () => {
     <div class="option item no-hover">
       Dark theme
       <switch-button
-        :checked="profile.palette === ColorPalette.Dark"
+        v-model="isDarkTheme"
         @switch="onSwitchColorPalette"
       ></switch-button>
     </div>
