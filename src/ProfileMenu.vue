@@ -33,7 +33,8 @@ const isDarkTheme = computed({
     <div class="header item no-hover">
       <div class="username">
         <small>Signed in as</small>
-        <strong>{{ profile.name ?? "Unnamed" }}</strong>
+        <strong v-if="profile.name">{{ profile.name }}</strong>
+        <strong v-else>Unnamed</strong>
       </div>
       <i class="bx bxs-cog"></i>
     </div>
