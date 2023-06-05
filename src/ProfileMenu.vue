@@ -41,7 +41,7 @@ const isDarkTheme = computed({
     <span v-if="archiveUrl"></span>
     <a v-if="archiveUrl" class="item" :href="archiveUrl" target="_blank">
       <i class="bx bx-cabinet"></i>
-      <span>My archive</span>
+      <span>My files</span>
     </a>
     <span>Appearance</span>
     <div class="option item no-hover">
