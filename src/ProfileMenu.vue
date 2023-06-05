@@ -11,17 +11,12 @@ import { computed } from "vue";
 
 interface Props {
   profile: Profile;
+  signupUrl: string;
+  signoutUrl: string;
+  archiveUrl: string;
 }
 
 const props = defineProps<Props>();
-
-interface Events {
-  (e: "signout", payload: MouseEvent): void;
-  (e: "signup", payload: MouseEvent): void;
-  (e: "edit", payload: MouseEvent): void;
-}
-
-const emit = defineEmits<Events>();
 
 const onSwitchColorPalette = () => {
   switchColorPalette(props.profile);
@@ -42,8 +37,13 @@ const isDarkTheme = computed({
         <strong v-if="profile.name">{{ profile.name }}</strong>
         <strong v-else>Guest user</strong>
       </div>
-      <i class="bx bxs-cog" @click="emit('edit', $event)"></i>
+      <i class="bx bxs-cog"></i>
     </div>
+    <span v-if="archiveUrl"></span>
+    <a v-if="archiveUrl" class="item" :href="archiveUrl" target="_blank">
+      <i class="bx bx-cabinet"></i>
+      <span>My archive</span>
+    </a>
     <span>Appearance</span>
     <div class="option item no-hover">
       Dark theme
@@ -53,20 +53,24 @@ const isDarkTheme = computed({
       ></switch-button>
     </div>
     <span></span>
-    <button v-if="profile.name" @click="emit('signout', $event)">
+    <a v-if="profile.name" class="item" :href="signoutUrl">
       <i class="bx bx-log-out"></i>
       <span>Sign out</span>
-    </button>
-    <button v-else @click="emit('signup', $event)">
+    </a>
+    <a v-else class="item" :href="signupUrl">
       <i class="bx bx-log-in"></i>
       <span>Create an account</span>
-    </button>
+    </a>
   </regular-menu>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "fibonacci-styles";
+
+a.item {
+  text-decoration: none;
+}
 
 .header {
   display: flex;

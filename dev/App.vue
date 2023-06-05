@@ -10,7 +10,7 @@ const profile = loadAndApply();
     href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
     rel="stylesheet"
   />
-  <profile-menu :profile="profile" />
+  <profile-menu :profile="profile" signupUrl="#?x=0" archiveUrl="#?x=1" />
 </template>
 
 <style lang="scss">
