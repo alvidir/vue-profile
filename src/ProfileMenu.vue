@@ -11,7 +11,6 @@ import { computed } from "vue";
 
 interface Props {
   profile: Profile;
-  signupUrl: string;
   signoutUrl: string;
   archiveUrl: string;
 }
@@ -34,8 +33,7 @@ const isDarkTheme = computed({
     <div class="header item no-hover">
       <div class="username">
         <small>Signed in as</small>
-        <strong v-if="profile.name">{{ profile.name }}</strong>
-        <strong v-else>Guest user</strong>
+        <strong>{{ profile.name ?? "Unnamed" }}</strong>
       </div>
       <i class="bx bxs-cog"></i>
     </div>
@@ -53,13 +51,9 @@ const isDarkTheme = computed({
       ></switch-button>
     </div>
     <span></span>
-    <a v-if="profile.name" class="item" :href="signoutUrl">
+    <a class="item" :href="signoutUrl">
       <i class="bx bx-log-out"></i>
       <span>Sign out</span>
-    </a>
-    <a v-else class="item" :href="signupUrl">
-      <i class="bx bx-log-in"></i>
-      <span>Create an account</span>
     </a>
   </regular-menu>
 </template>
