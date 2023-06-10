@@ -11,8 +11,8 @@ import { computed } from "vue";
 
 interface Props {
   profile: Profile;
-  signoutUrl: string;
-  archiveUrl: string;
+  signoutUrl?: string;
+  archiveUrl?: string;
 }
 
 const props = defineProps<Props>();
