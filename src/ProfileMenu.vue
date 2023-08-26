@@ -7,25 +7,25 @@ import {
   switchColorPalette,
   storeAndApply,
 } from "./profile";
+import { computed } from "vue";
 
 interface Props {
   profile: Profile;
+  signoutUrl?: string;
+  archiveUrl?: string;
 }
 
 const props = defineProps<Props>();
-
-interface Events {
-  (e: "signout", payload: MouseEvent): void;
-  (e: "signup", payload: MouseEvent): void;
-  (e: "edit", payload: MouseEvent): void;
-}
-
-const emit = defineEmits<Events>();
 
 const onSwitchColorPalette = () => {
   switchColorPalette(props.profile);
   storeAndApply(props.profile);
 };
+
+const isDarkTheme = computed({
+  get: (): boolean => props.profile.palette == ColorPalette.Dark,
+  set: () => onSwitchColorPalette(),
+});
 </script>
 
 <template>
@@ -34,33 +34,38 @@ const onSwitchColorPalette = () => {
       <div class="username">
         <small>Signed in as</small>
         <strong v-if="profile.name">{{ profile.name }}</strong>
-        <strong v-else>Guest user</strong>
+        <strong v-else>Unnamed</strong>
       </div>
-      <i class="bx bxs-cog" @click="emit('edit', $event)"></i>
+      <i class="bx bxs-cog"></i>
     </div>
+    <span v-if="archiveUrl"></span>
+    <a v-if="archiveUrl" class="item" :href="archiveUrl" target="_blank">
+      <i class="bx bx-cabinet"></i>
+      <span>My files</span>
+    </a>
     <span>Appearance</span>
     <div class="option item no-hover">
       Dark theme
       <switch-button
-        :checked="profile.palette === ColorPalette.Dark"
+        v-model="isDarkTheme"
         @switch="onSwitchColorPalette"
       ></switch-button>
     </div>
     <span></span>
-    <button v-if="profile.name" @click="emit('signout', $event)">
+    <a class="item" :href="signoutUrl">
       <i class="bx bx-log-out"></i>
       <span>Sign out</span>
-    </button>
-    <button v-else @click="emit('signup', $event)">
-      <i class="bx bx-log-in"></i>
-      <span>Create an account</span>
-    </button>
+    </a>
   </regular-menu>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "fibonacci-styles";
+
+a.item {
+  text-decoration: none;
+}
 
 .header {
   display: flex;

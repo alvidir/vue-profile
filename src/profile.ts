@@ -36,7 +36,6 @@ const load = (): Profile => {
 };
 
 const apply = (profile: Profile) => {
-  console.log(profile);
   if (profile.palette) {
     const classList = document.getElementsByTagName("body")[0].classList;
     Object.values(ColorPalette).forEach((key: string) => {
